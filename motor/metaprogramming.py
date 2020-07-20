@@ -18,6 +18,9 @@ from __future__ import unicode_literals, absolute_import
 
 import inspect
 import functools
+import logging
+
+log = logging.getLogger(__name__)
 
 from pymongo.cursor import Cursor
 
@@ -72,6 +75,9 @@ def asynchronize(
                 for key, obj in kwargs.items()}
 
         loop = self.get_io_loop()
+
+        log.debug('%s (%s, %s) --<%s>', sync_method, unwrapped_args, unwrapped_kwargs, self.delegate)
+
         return framework.run_on_executor(loop,
                                          sync_method,
                                          self.delegate,
